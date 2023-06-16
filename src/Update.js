@@ -23,17 +23,15 @@ const Update = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        const blog = { title, body, author };
+        const blog = { title, body, author, id };
 
         setIsPending(true);
 
-        fetch('http://localhost:8000/blogs/' + id, {
-            method: 'DELETE'
-        }).then(
+        
 
-            fetch('http://localhost:8000/blogs',{
-                method: 'POST',
-                headers: { "Content-Type": "application/json"},
+            fetch('http://localhost:8000/blogs/' + id,{
+                method: 'PUT',
+                headers: { "Content-Type": "application/json; charset=UTF-8"},
                 body: JSON.stringify(blog)
             })
             .then(() => {
@@ -42,14 +40,15 @@ const Update = () => {
                 history.push('/');
             })
 
-        )
+        
     }
 
     return ( 
         <div className="create">
             { isPending && <div>Loading...</div>}
             { error && <div> 
-                {error}<br></br>
+                {error}
+                <br></br>
                 <Link to="/">Back to homepage...</Link>
                 </div> }
             { blog && (
