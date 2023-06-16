@@ -61,6 +61,13 @@
 .blog-details div {
   margin: 20px 0;
 }
+
+.buttons{
+  display: flex;
+  justify-content: space-around;
+}
+
+
 .blog-details button {
   background: #f1356d;
   color: #fff;
@@ -68,6 +75,7 @@
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
+  width: 100px
 }
 
 /* create new blog form */

@@ -8,32 +8,32 @@ const useFetch = (url) => {
     useEffect(() => {
         const abortCont  = new AbortController();
 
-        setTimeout(() =>{
-            fetch(url, { signal: abortCont.signal})
-                .then(res => {
-                    console.log(res);
-                    if(!res.ok){
-                        throw Error('could not fetch the data');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    
-                    setData(data);
+        
+        fetch(url, { signal: abortCont.signal})
+            .then(res => {
+                console.log(res);
+                if(!res.ok){
+                    throw Error('could not fetch the data');
+                }
+                return res.json();
+            })
+            .then(data => {
+                
+                setData(data);
+                setIsPending(false);
+                setError(null);
+            })
+            .catch(err =>{
+                if(err.name === 'AbortError'){
+                    console.log('fetch aborted');
+                }
+                else{
                     setIsPending(false);
-                    setError(null);
-                })
-                .catch(err =>{
-                    if(err.name === 'AbortError'){
-                        console.log('fetch aborted');
-                    }
-                    else{
-                        setIsPending(false);
-                        setError(err.message);
-                    }
-                })
+                    setError(err.message);
+                }
+            })
 
-        }, 1000)
+        
 
         return ()=> abortCont.abort();
     }, []);
@@ -43,7 +43,8 @@ const useFetch = (url) => {
     return{
         data,
         isPending,
-        error
+        error,
+        setIsPending
     }
 }
 
