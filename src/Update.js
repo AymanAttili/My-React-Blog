@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import useFetch from './useFetch'
 
 const Update = () => {
@@ -12,12 +12,12 @@ const Update = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if(!isPending){
+        if(!isPending && !error){
             setTitle(blog.title);
             setBody(blog.body);
             setAuthor(blog.author);
         }
-    }, [isPending])
+    }, [blog])
 
     
 
@@ -47,39 +47,48 @@ const Update = () => {
 
     return ( 
         <div className="create">
-            <h2>Update Blog</h2>
-            <form 
-                onSubmit={handleUpdate}
-            >
-                <label htmlFor="">Blog title</label>
-                <input 
-                    type="text"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+            { isPending && <div>Loading...</div>}
+            { error && <div> 
+                {error}<br></br>
+                <Link to="/">Back to homepage...</Link>
+                </div> }
+            { blog && (
+                <article>
+                    <h2>Update Blog</h2>
+                    <form 
+                        onSubmit={handleUpdate}
+                    >
+                        <label htmlFor="">Blog title</label>
+                        <input 
+                            type="text"
+                            required
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
 
-                <label htmlFor="">Blog Body</label>
-                <textarea 
-                    required
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                ></textarea>
+                        <label htmlFor="">Blog Body</label>
+                        <textarea 
+                            required
+                            value={body}
+                            onChange={(e) => setBody(e.target.value)}
+                        ></textarea>
 
-                <label htmlFor="">Blog author</label>
-                <select 
-                    value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
-                >
-                    <option value="mario">mario</option>
-                    <option value="yoshi">yoshi</option>
-                </select>
+                        <label htmlFor="">Blog author</label>
+                        <select 
+                            value={author}
+                            onChange={(e) => setAuthor(e.target.value)}
+                        >
+                            <option value="mario">mario</option>
+                            <option value="yoshi">yoshi</option>
+                        </select>
 
-                { !isPending && <button>Update Blog</button> }
-                { isPending && <button disabled>Updating blog...</button> }
+                        { !isPending && <button>Update Blog</button> }
+                        { isPending && <button disabled>Updating blog...</button> }
 
-                
-            </form>
+                        
+                    </form>
+                </article>
+            ) }
         </div>
     );
 }

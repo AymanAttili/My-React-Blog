@@ -19,7 +19,11 @@ const BlogDetails = () => {
     return ( 
         <div className="blog-details">
             { isPending && <div>Loading...</div>}
-            { error && <div> {error} </div> }
+            { error && <div> 
+                {error} 
+                <br></br>
+                <Link to="/">Back to homepage...</Link>
+            </div> }
             { blog && (
                 <article>
                     <h2>{ blog.title }</h2>
@@ -27,11 +31,11 @@ const BlogDetails = () => {
                     <div>{ blog.body }</div>
 
                     <div className="buttons">
-                    <button onClick={handleClick}>delete</button>
+                        <button onClick={handleClick}>delete</button>
 
-                    <Link to={`/update/${blog.id}`}>
-                        <button>Update</button>
-                    </Link>
+                        <Link to={`/update/${blog.id}`}>
+                            <button>Update</button>
+                        </Link>
                     </div>
 
                 </article>
